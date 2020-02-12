@@ -1,5 +1,0 @@
----
-yum_pkgs:
-        - nmap
-         - vim
-
