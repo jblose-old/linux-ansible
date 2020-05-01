@@ -1,0 +1,25 @@
+---
+- hosts: local
+  become_user: root
+  become_method: sudo
+  become: yes
+
+  tasks:
+    - name: Add Microsoft Repository Key
+      rpm_key:
+        state: present
+        key: https://packages.microsoft.com/keys/microsoft.asc
+
+    - name: Add Microsoft Repository
+      yum_repository: 
+        name: azure-cli
+        description: Microsoft Repository
+        file: azure-cli
+        baseurl: https://packages.microsoft.com/yumrepos/azure-cli
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+    - name: Install AZ CLI
+      yum:
+        name: azure-cli
+        state: latest
+    
