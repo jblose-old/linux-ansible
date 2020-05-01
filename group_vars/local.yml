@@ -2,3 +2,5 @@
 yum_pkgs:
   - nmap
   - vim
+  - alien.noarch
+  - keepass.x86_64
