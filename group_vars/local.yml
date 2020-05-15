@@ -4,3 +4,4 @@ yum_pkgs:
   - vim
   - alien.noarch
   - keepass.x86_64
+  - htop
