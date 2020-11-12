@@ -9,3 +9,4 @@ yum_pkgs:
 apt_pkgs:
   - azure-cli
   - make
+  - unzip
