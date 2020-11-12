@@ -5,3 +5,7 @@ yum_pkgs:
   - alien.noarch
   - keepass.x86_64
   - htop
+
+apt_pkgs:
+  - azure-cli
+  - make

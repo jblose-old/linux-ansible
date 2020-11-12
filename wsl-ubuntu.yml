@@ -9,8 +9,7 @@
         state: latest
         update_cache: yes
         
-    - name: Install Azure CLI
+    - name: Install Packages
       apt:
-        name: azure-cli
-        state: present
-
+        name: "{{ apt_pkgs }}"
+        state: latest
