@@ -13,3 +13,12 @@
       apt:
         name: "{{ apt_pkgs }}"
         state: latest
+
+    - name: Check for TFSwitch
+      stat:
+        path: /usr/local/bin/tfswitch
+      register: tf_exists
+
+    - name: Install TFSwitch
+      shell: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+      when: not tf_exists.stat.exists
