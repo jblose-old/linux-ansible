@@ -8,7 +8,7 @@
         name: "*"
         state: latest
         update_cache: yes
-        
+
     - name: Install Packages
       apt:
         name: "{{ apt_pkgs }}"
@@ -22,3 +22,18 @@
     - name: Install TFSwitch
       shell: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
       when: not tf_exists.stat.exists
+
+    - name: Create user path
+      file:
+        path: /home/{{ user }}/bin
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        state: directory
+      when: user is defined
+
+    - name: Append to .bashrc
+      blockinfile:
+        path: /home/{{ user }}/.bashrc
+        block: |
+          export PATH=/home/{{ user }}/bin:$PATH
+      when: user is defined

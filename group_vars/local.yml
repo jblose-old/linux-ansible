@@ -10,3 +10,5 @@ apt_pkgs:
   - azure-cli
   - make
   - unzip
+
+user: jblose
