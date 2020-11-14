@@ -37,3 +37,10 @@
         block: |
           export PATH=/home/{{ user }}/bin:$PATH
       when: user is defined
+
+    - name: Append to .zshrc
+      blockinfile:
+        path: /home/{{ user }}/.zshrc
+        block: |
+          export PATH=/home/{{ user }}/bin:$PATH
+      when: user is defined
