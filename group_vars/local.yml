@@ -11,5 +11,7 @@ apt_pkgs:
   - make
   - unzip
   - git
+  - zsh
+  - fontconfig
 
 user: jblose
