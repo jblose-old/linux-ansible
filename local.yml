@@ -44,10 +44,20 @@
         state: directory
       when: user is defined
 
+    - name: Download git-prompt
+      get_url:
+        url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+        dest: /home/{{ user }}/.git-prompt.sh
+        mode: "0644"
+
     - name: Append to .bashrc
       blockinfile:
         path: /home/{{ user }}/.bashrc
         block: |
+          # Git Prompt
+          source ~/.git-prompt.sh
+          PS1='$(__git_ps1 "(%s)")'$PS1
+          # PATH
           export PATH=/home/{{ user }}/bin:$PATH
       when: user is defined
 
