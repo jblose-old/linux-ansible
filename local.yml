@@ -57,6 +57,11 @@
           # Git Prompt
           source ~/.git-prompt.sh
           PS1='$(__git_ps1 "(%s)")'$PS1
+          # Git Helper Functions
+          function gbclean() {
+            local dest="${1:-develop}"
+            git fetch --all --prune && git checkout ${dest} && git merge origin/${dest} && git branch --merged | egrep -v "(^\*|master|dev|${dest})" | xargs git branch -d && git checkout - > /dev/null 2>&1
+          }
           # PATH
           export PATH=/home/{{ user }}/bin:$PATH
       when: user is defined
