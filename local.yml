@@ -44,11 +44,17 @@
         state: directory
       when: user is defined
 
+    - name: Check for Git Prompt
+      stat:
+        path: /home/{{ user }}/.git-prompt.sh
+      register: gitprompt_exists
+
     - name: Download git-prompt
       get_url:
         url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
         dest: /home/{{ user }}/.git-prompt.sh
         mode: "0644"
+      when: not gitprompt_exists.stat.exists
 
     - name: Append to .bashrc
       blockinfile:
