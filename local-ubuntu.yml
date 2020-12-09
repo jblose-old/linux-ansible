@@ -23,19 +23,6 @@
       shell: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
       when: not tf_exists.stat.exists
 
-    - name: Create a src directory
-      file:
-        path: /mnt/c/src
-        state: directory
-
-    - name: soft link to /mnt/c/src
-      file:
-        src: /mnt/c/src
-        dest: /home/{{ user }}/src
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        state: link
-
     - name: Create user path
       file:
         path: /home/{{ user }}/bin
@@ -72,9 +59,3 @@
           export PATH=/home/{{ user }}/bin:$PATH
       when: user is defined
 
-    - name: Append to .zshrc
-      blockinfile:
-        path: /home/{{ user }}/.zshrc
-        block: |
-          export PATH=/home/{{ user }}/bin:$PATH
-      when: user is defined
