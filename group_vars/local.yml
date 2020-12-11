@@ -13,5 +13,6 @@ apt_pkgs:
   - git
   - zsh
   - fontconfig
+  - maven
 
 user: jblose
