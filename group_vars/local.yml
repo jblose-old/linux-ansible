@@ -14,5 +14,13 @@ apt_pkgs:
   - zsh
   - fontconfig
   - maven
+  - python3-venv
+  - python3-pip
+  - gir1.2-secret-1
+  - pkg-config
+  - libcairo2-dev
+  - gcc
+  - python3-dev
+  - libgirepository1.0-dev
 
 user: jblose
