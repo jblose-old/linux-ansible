@@ -1,11 +1,4 @@
 ---
-yum_pkgs:
-  - nmap
-  - vim
-  - alien.noarch
-  - keepass.x86_64
-  - htop
-
 apt_pkgs:
   - azure-cli
   - make
