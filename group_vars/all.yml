@@ -15,5 +15,6 @@ apt_pkgs:
   - gcc
   - python3-dev
   - libgirepository1.0-dev
+  - apache2-utils
 
 user: jblose
