@@ -1,0 +1,20 @@
+---
+apt_pkgs:
+  - azure-cli
+  - make
+  - unzip
+  - git
+  - zsh
+  - fontconfig
+  - maven
+  - python3-venv
+  - python3-pip
+  - gir1.2-secret-1
+  - pkg-config
+  - libcairo2-dev
+  - gcc
+  - python3-dev
+  - libgirepository1.0-dev
+  - apache2-utils
+
+user: jblose

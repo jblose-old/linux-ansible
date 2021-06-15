@@ -1,5 +1,5 @@
 ---
-- hosts: local
+- hosts: all
   become: yes
 
   tasks:
@@ -57,14 +57,24 @@
           }
           # PATH
           export PATH=/home/{{ user }}/bin:$PATH
-      when: user is defined
-
-    - name: Append to .bashrc
-      blockinfile:
-        path: /home/{{ user }}/.bashrc
-        block: |
+          
+          # Aliases
           alias kc=kubectl
       when: user is defined
- 
 
+    - name: Check for kubectl
+      stat:
+        path: /usr/bin/kubectl
+      register: kubectl_exists
+
+    - name: Install kubectl
+      shell: |
+        apt-get install -y apt-transport-https gnupg2 curl
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+        apt-get update
+        apt-get install -y kubectl
+      args:
+        warn: false
+      when: not kubectl_exists.stat.exists
 
