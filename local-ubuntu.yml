@@ -59,3 +59,12 @@
           export PATH=/home/{{ user }}/bin:$PATH
       when: user is defined
 
+    - name: Append to .bashrc
+      blockinfile:
+        path: /home/{{ user }}/.bashrc
+        block: |
+          alias kc=kubectl
+      when: user is defined
+ 
+
+
