@@ -43,7 +43,7 @@
         mode: "0644"
       when: not gitprompt_exists.stat.exists
 
-    - name: Append to .bashrc
+    - name: Manage .bashrc
       blockinfile:
         path: /home/{{ user }}/.bashrc
         block: |
@@ -55,8 +55,13 @@
             local dest="${1:-develop}"
             git fetch --all --prune && git checkout ${dest} && git merge origin/${dest} && git branch --merged | egrep -v "(^\*|master|dev|${dest})" | xargs git branch -d && git checkout - > /dev/null 2>&1
           }
+
           # PATH
           export PATH=/home/{{ user }}/bin:$PATH
+
+          # Aliases
+          alias python='python3'
+          alias kc='kubectl'
       when: user is defined
 
     - name: Check for kubectl
