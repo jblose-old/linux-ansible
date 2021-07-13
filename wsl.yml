@@ -43,6 +43,22 @@
         mode: "0644"
       when: not gitprompt_exists.stat.exists
 
+    - name: Check for kubectl
+      stat:
+        path: /usr/bin/kubectl
+      register: kubectl_exists
+
+    - name: Install kubectl
+      shell: |
+        apt-get install -y apt-transport-https gnupg2 curl
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+        apt-get update
+        apt-get install -y kubectl
+      args:
+        warn: false
+      when: not kubectl_exists.stat.exists
+
     - name: Manage .bashrc
       blockinfile:
         path: /home/{{ user }}/.bashrc
@@ -63,19 +79,3 @@
           alias python='python3'
           alias kc='kubectl'
       when: user is defined
-
-    - name: Check for kubectl
-      stat:
-        path: /usr/bin/kubectl
-      register: kubectl_exists
-
-    - name: Install kubectl
-      shell: |
-        apt-get install -y apt-transport-https gnupg2 curl
-        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-        apt-get update
-        apt-get install -y kubectl
-      args:
-        warn: false
-      when: not kubectl_exists.stat.exists
