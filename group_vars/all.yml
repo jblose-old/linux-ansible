@@ -6,6 +6,7 @@ apt_pkgs:
   - gcc
   - git
   - gir1.2-secret-1
+  - jq
   - libcairo2-dev
   - libgirepository1.0-dev
   - make
