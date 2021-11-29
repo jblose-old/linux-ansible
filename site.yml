@@ -71,15 +71,15 @@
         warn: false
       when: not kubectl_exists.stat.exists
 
-    # - name: Install Nomad
-    #   shell: |
-    #     curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-    #     apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-    #     apt-get update && sudo apt-get install nomad
-    #   args:
-    #     warn: false
-    #   tags: 
-    #     - nomad
+    - name: Check for Minikube
+      stat:
+        path: /usr/bin/minikube
+      register: minikube_exists
+
+    - name: Install Minikube
+      apt:
+        deb:  https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+      when: not minikube_exists.stat.exists
 
     - name: Manage .bashrc
       blockinfile:
