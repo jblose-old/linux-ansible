@@ -14,6 +14,26 @@
         name: "{{ apt_pkgs }}"
         state: latest
 
+    - name: Check for VS Code
+      stat: 
+        path: /usr/bin/code
+      register: code_exists
+
+    - name: Install VS Code
+      apt:
+        deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+      when: not code_exists.stat.exists
+
+    - name: Check for Chrome
+      stat: 
+        path: /opt/google/chrome/chrome
+      register: chrome_exists
+    
+    - name: Install Chrome
+      apt:
+        deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      when: not chrome_exists.stat.exists
+
     - name: Check for TFSwitch
       stat:
         path: /usr/local/bin/tfswitch
@@ -22,14 +42,6 @@
     - name: Install TFSwitch
       shell: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
       when: not tf_exists.stat.exists
-
-    - name: Create user path
-      file:
-        path: /home/{{ user }}/bin
-        owner: "{{ user }}"
-        group: "{{ user }}"
-        state: directory
-      when: user is defined
 
     - name: Check for Git Prompt
       stat:
@@ -59,13 +71,15 @@
         warn: false
       when: not kubectl_exists.stat.exists
 
-    - name: Install Nomad
-      shell: |
-        curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-        apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-        apt-get update && sudo apt-get install nomad
-      args:
-        warn: false
+    # - name: Install Nomad
+    #   shell: |
+    #     curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+    #     apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+    #     apt-get update && sudo apt-get install nomad
+    #   args:
+    #     warn: false
+    #   tags: 
+    #     - nomad
 
     - name: Manage .bashrc
       blockinfile:
@@ -79,9 +93,6 @@
             local dest="${1:-develop}"
             git fetch --all --prune && git checkout ${dest} && git merge origin/${dest} && git branch --merged | egrep -v "(^\*|master|dev|${dest})" | xargs git branch -d && git checkout - > /dev/null 2>&1
           }
-
-          # PATH
-          export PATH=/home/{{ user }}/bin:$PATH
 
           # Aliases
           alias python='python3'

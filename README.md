@@ -1,11 +1,11 @@
-# WSL Ansible
+# Ubuntu Ansible
 
 ## Description
 
-Ansible Project for configuring and maintaining an Unbuntu WSL installation on Windows.
+Ansible Project for configuring and maintaining an Ubuntu Workstation.
 
 ## Usage
 
 ```bash
-ansible-playbook -i inventory.yml -K wsl.yml
+ansible-playbook -i inventory.yml -K site.yml
 ```
