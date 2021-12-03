@@ -34,6 +34,42 @@
         deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       when: not chrome_exists.stat.exists
 
+    - name: Check for Slack
+      stat: 
+        path: /usr/bin/slack
+      register: slack_exists
+
+    - name: Install Slack 
+      apt:
+        deb: https://downloads.slack-edge.com/releases/linux/4.22.0/prod/x64/slack-desktop-4.22.0-amd64.deb
+      when: not slack_exists.stat.exists
+
+    
+    - name: Check for Signal
+      stat: 
+        path: /usr/bin/signal-desktop
+      register: signal_exists
+
+    - name: Install Signal
+      block:
+        - name: Signal - Add Public Signing Key
+          ansible.builtin.apt_key:
+            url: https://updates.signal.org/desktop/apt/keys.asc 
+            keyring: /usr/share/keyrings/signal-desktop-keyring.gpg
+            state: present
+
+        - name: Signal - Add repository
+          ansible.builtin.apt_repository:
+            repo: deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main
+            state: present
+        
+        - name: Signal - Install
+          apt: 
+            update_cache: yes
+            name: signal-desktop
+            state: present
+      when: not signal_exists.stat.exists
+
     - name: Check for TFSwitch
       stat:
         path: /usr/local/bin/tfswitch
